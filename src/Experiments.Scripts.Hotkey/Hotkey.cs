@@ -50,7 +50,7 @@ namespace Experiments.Scripts.Hotkey
         private void openPrompt()
         {
             string result = Game.GetUserInput(20);
-            if (result == null)
+            if (string.IsNullOrWhiteSpace(result))
             {
                 return;
             }
