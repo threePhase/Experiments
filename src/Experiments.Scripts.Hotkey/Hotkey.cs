@@ -99,10 +99,22 @@ namespace Experiments.Scripts.Hotkey
 
         private void setupHotstrings()
         {
-            this._hotstrings.Add("zerowanteds", (args) =>
+            const string WANTED_LEVEL = "wanted_level";
+            this._hotstrings.Add(WANTED_LEVEL, (args) =>
             {
-                Game.Player.WantedLevel = 0;
-                UI.Notify("Wanteds cleared!");
+                if (args == null || args.Length != 1)
+                {
+                    UI.Notify($"Usage: {WANTED_LEVEL} (level) where (level) is an int between 0 and 5");
+                    return;
+                }
+
+                int currentLevel = Game.Player.WantedLevel;
+                if (args[0] != null)
+                {
+                    int.TryParse(args[0], out currentLevel);
+                }
+                Game.Player.WantedLevel = currentLevel;
+                UI.Notify("Wanted Level Updated");
             });
         }
     }
