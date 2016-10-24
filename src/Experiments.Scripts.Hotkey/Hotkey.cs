@@ -23,7 +23,8 @@ namespace Experiments.Scripts.Hotkey
             set
             {
                 _statusText.Caption =
-                    $"Example Script: {(value ? "~g~ON" : "~r~OFF")}";
+                    $"Hotkeys: {(value ? "~g~ON" : "~r~OFF")}";
+
                 _enabled = value;
             }
         }
@@ -33,10 +34,9 @@ namespace Experiments.Scripts.Hotkey
             this.Tick += onTick;
             this.KeyDown += onKeyDown;
             this.Interval = 0;
-            this.Enabled = true;
 
             this._statusText =
-                new UIText("Example Script: ~r~OFF",
+                new UIText("Hotkeys: ~r~OFF",
                     new Point(10, 10), 0.4f, Color.WhiteSmoke, 0, false);
 
             this._hotstrings = new Dictionary<string, Action<string[]>>();
@@ -47,7 +47,7 @@ namespace Experiments.Scripts.Hotkey
             });
 
             this._hotkeys = new Dictionary<Keys, Action>();
-            this._hotkeys.Add(Keys.Decimal, () =>
+            this._hotkeys.Add(Keys.Oemtilde, () =>
             {
                 string result = Game.GetUserInput(20);
                 if (result == null)
