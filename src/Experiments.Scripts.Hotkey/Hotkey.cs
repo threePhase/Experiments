@@ -41,14 +41,10 @@ namespace Experiments.Scripts.Hotkey
                     new Point(10, 10), 0.4f, Color.WhiteSmoke, 0, false);
 
             this._hotstrings = new Dictionary<string, Action<string[]>>();
-            this._hotstrings.Add("zerowanteds", (args) =>
-            {
-                Game.Player.WantedLevel = 0;
-                UI.Notify("Wanteds cleared!");
-            });
+            this.setupHotstrings();
 
             this._hotkeys = new Dictionary<Keys, Action>();
-            this._hotkeys.Add(Keys.Oemtilde, openPrompt);
+            this.setupHotkeys();
         }
 
         private void openPrompt()
@@ -67,7 +63,7 @@ namespace Experiments.Scripts.Hotkey
             {
                 UI.Notify("Unknown command");
             }
-        });
+        }
 
         private void onTick(object sender, EventArgs e)
         {
@@ -94,6 +90,20 @@ namespace Experiments.Scripts.Hotkey
             {
                 this._hotkeys[hotkey]();
             }
+        }
+
+        private void setupHotkeys()
+        {
+            this._hotkeys.Add(Keys.Oemtilde, openPrompt);
+        }
+
+        private void setupHotstrings()
+        {
+            this._hotstrings.Add("zerowanteds", (args) =>
+            {
+                Game.Player.WantedLevel = 0;
+                UI.Notify("Wanteds cleared!");
+            });
         }
     }
 }
