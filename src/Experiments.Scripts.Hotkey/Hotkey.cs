@@ -17,6 +17,7 @@ namespace Experiments.Scripts.Hotkey
         private readonly Dictionary<string, Action<string[]>> _hotstrings;
         private readonly UIText _statusText;
         private bool _enabled;
+
         public bool Enabled
         {
             get { return _enabled; }
@@ -47,24 +48,26 @@ namespace Experiments.Scripts.Hotkey
             });
 
             this._hotkeys = new Dictionary<Keys, Action>();
-            this._hotkeys.Add(Keys.Oemtilde, () =>
-            {
-                string result = Game.GetUserInput(20);
-                if (result == null)
-                {
-                    return;
-                }
-                string[] command = result.Split(' ');
-                if (this._hotstrings.ContainsKey(command[0]))
-                {
-                    this._hotstrings[command[0]](command.Skip(1).ToArray());
-                }
-                else
-                {
-                    UI.Notify("Unknown command");
-                }
-            });
+            this._hotkeys.Add(Keys.Oemtilde, openPrompt);
         }
+
+        private void openPrompt()
+        {
+            string result = Game.GetUserInput(20);
+            if (result == null)
+            {
+                return;
+            }
+            string[] command = result.Split(' ');
+            if (this._hotstrings.ContainsKey(command[0]))
+            {
+                this._hotstrings[command[0]](command.Skip(1).ToArray());
+            }
+            else
+            {
+                UI.Notify("Unknown command");
+            }
+        });
 
         private void onTick(object sender, EventArgs e)
         {
