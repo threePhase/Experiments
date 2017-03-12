@@ -1,14 +1,28 @@
-﻿using System.Drawing;
-using GTA.Native;
-using GTA.Math;
+﻿using Experiments.Scripts.CarSpawn.Vehicles;
 using GTA;
-using Experiments.Scripts.CarSpawn.Vehicles;
+using GTA.Math;
+using GTA.Native;
+using System.Collections.Generic;
+using System.Drawing;
+using System;
 
 namespace Experiments.Scripts.CarSpawn
 {
     class VehicleService
     {
-        public Vehicle SpawnMovingVehicle(bool explodeOnImpact)
+        private IList<Vehicle> _vehicles;
+
+        public VehicleService()
+        {
+            this._vehicles = new List<Vehicle>();
+        }
+
+        internal void Update(object sender, EventArgs e)
+        {
+            CleanUpDeadVehicles();
+        }
+
+        public void SpawnMovingVehicle(bool explodeOnImpact)
         {
             // position vehicle 5 meters in front of player
             Vector3 position =
@@ -34,10 +48,40 @@ namespace Experiments.Scripts.CarSpawn
             vehicle.ApplyForceRelative(new Vector3(0, 0, -10));
             // TODO: set vehicle mods
 
+            this._vehicles.Add(vehicle);
+        }
+
+        private void CleanUpDeadVehicles()
+        {
+            var livingVehicles = new List<Vehicle>();
+            foreach(var vehicle in this._vehicles)
+            {
+                if (vehicle.IsDead && !vehicle.IsOnScreen)
+                {
+                    vehicle.Delete();
+                }
+                else
+                {
+                    livingVehicles.Add(vehicle);
+                }
+            }
+            this._vehicles = livingVehicles;
+        }
+
+        private Vehicle CreateRandomMotorcycle(Vector3 position, float heading)
+        {
+            // TODO: Make selection random
+            VehicleHash motorcycleType = Motorcycles.GetRandomMotorcycle();
+
+            Vehicle vehicle =
+                World.CreateVehicle(motorcycleType, position, heading);
+
+            SetColors(vehicle, Color.Crimson, Color.Black);
+
             return vehicle;
         }
 
-        public Vehicle SpawnMotorcycleWithRider(Vector3 position, float heading)
+        private Vehicle SpawnMotorcycleWithRider(Vector3 position, float heading)
         {
             Vehicle vehicle = CreateRandomMotorcycle(position, heading);
             vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver);
@@ -55,19 +99,6 @@ namespace Experiments.Scripts.CarSpawn
         {
             // make vehicle explode on impact
             vehicle.PetrolTankHealth = -1f;
-        }
-
-        private Vehicle CreateRandomMotorcycle(Vector3 position, float heading)
-        {
-            // TODO: Make selection random
-            VehicleHash motorcycleType = Motorcycles.GetRandomMotorcycle();
-
-            Vehicle vehicle =
-                World.CreateVehicle(motorcycleType, position, heading);
-
-            SetColors(vehicle, Color.Crimson, Color.Black);
-
-            return vehicle;
         }
     }
 }
