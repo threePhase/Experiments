@@ -10,23 +10,23 @@ namespace Experiments.Scripts.CarSpawn
 
         public CreateVehicle()
         {
-            this._service = new VehicleService();
+            _service = new VehicleService();
 
-            this.Tick += this._service.Update;
-            this.KeyUp += onKeyUp;
-            this.KeyDown += onKeyDown;
+            Tick += _service.Update;
+            KeyUp += OnKeyUp;
+            KeyDown += OnKeyDown;
         }
 
-        private void onKeyUp(object sender, KeyEventArgs e)
+        private void OnKeyUp(object sender, KeyEventArgs e)
         {
         }
 
-        private void onKeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Oemcomma)
             {
                 Logger.Log("Creating vehicle");
-                this._service.SpawnMovingVehicle(explodeOnImpact: true);
+                _service.SpawnMovingVehicle(explodeOnImpact: true);
             }
         }
     }

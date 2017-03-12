@@ -32,22 +32,22 @@ namespace Experiments.Scripts.Hotkey
 
         public Hotkey()
         {
-            this.Tick += onTick;
-            this.KeyDown += onKeyDown;
-            this.Interval = 0;
+            Tick += OnTick;
+            KeyDown += OnKeyDown;
+            Interval = 0;
 
-            this._statusText =
+            _statusText =
                 new UIText("Hotkeys: ~r~OFF",
                     new Point(10, 10), 0.4f, Color.WhiteSmoke, 0, false);
 
-            this._hotstrings = new Dictionary<string, Action<string[]>>();
-            this.setupHotstrings();
+            _hotstrings = new Dictionary<string, Action<string[]>>();
+            SetupHotstrings();
 
-            this._hotkeys = new Dictionary<Keys, Action>();
-            this.setupHotkeys();
+            _hotkeys = new Dictionary<Keys, Action>();
+            SetupHotkeys();
         }
 
-        private void openPrompt()
+        private void OpenPrompt()
         {
             string result = Game.GetUserInput(20);
             if (string.IsNullOrWhiteSpace(result))
@@ -55,9 +55,9 @@ namespace Experiments.Scripts.Hotkey
                 return;
             }
             string[] command = result.Split(' ');
-            if (this._hotstrings.ContainsKey(command[0]))
+            if (_hotstrings.ContainsKey(command[0]))
             {
-                this._hotstrings[command[0]](command.Skip(1).ToArray());
+                _hotstrings[command[0]](command.Skip(1).ToArray());
             }
             else
             {
@@ -65,42 +65,42 @@ namespace Experiments.Scripts.Hotkey
             }
         }
 
-        private void onTick(object sender, EventArgs e)
+        private void OnTick(object sender, EventArgs e)
         {
-            this._statusText.Draw();
-            if (!this.Enabled)
+            _statusText.Draw();
+            if (!Enabled)
             {
                 return;
             }
         }
 
-        private void onKeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F5)
             {
-                this.Enabled = !this.Enabled;
+                Enabled = !Enabled;
             }
 
-            if (!this.Enabled)
+            if (!Enabled)
             {
                 return;
             }
 
-            foreach (var hotkey in this._hotkeys.Keys.Where(hotkey => e.KeyCode == hotkey))
+            foreach (var hotkey in _hotkeys.Keys.Where(hotkey => e.KeyCode == hotkey))
             {
-                this._hotkeys[hotkey]();
+                _hotkeys[hotkey]();
             }
         }
 
-        private void setupHotkeys()
+        private void SetupHotkeys()
         {
-            this._hotkeys.Add(Keys.Oemtilde, openPrompt);
+            _hotkeys.Add(Keys.Oemtilde, OpenPrompt);
         }
 
-        private void setupHotstrings()
+        private void SetupHotstrings()
         {
             const string WANTED_LEVEL = "wanted_level";
-            this._hotstrings.Add(WANTED_LEVEL, (args) =>
+            _hotstrings.Add(WANTED_LEVEL, (args) =>
             {
                 if (args == null || args.Length != 1)
                 {

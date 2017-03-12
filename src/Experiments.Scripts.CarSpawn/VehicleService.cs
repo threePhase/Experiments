@@ -14,7 +14,7 @@ namespace Experiments.Scripts.CarSpawn
 
         public VehicleService()
         {
-            this._entities = new List<Entity>();
+            _entities = new List<Entity>();
         }
 
         internal void Update(object sender, EventArgs e)
@@ -48,13 +48,13 @@ namespace Experiments.Scripts.CarSpawn
             vehicle.ApplyForceRelative(new Vector3(0, 0, -10));
             // TODO: set vehicle mods
 
-            this._entities.Add(vehicle);
+            _entities.Add(vehicle);
         }
 
         private void CleanUpDeadEntities()
         {
             var livingEntities = new List<Entity>();
-            foreach(var entity in this._entities)
+            foreach(var entity in _entities)
             {
                 if (entity.IsDead && !entity.IsOnScreen)
                 {
@@ -65,7 +65,7 @@ namespace Experiments.Scripts.CarSpawn
                     livingEntities.Add(entity);
                 }
             }
-            this._entities = livingEntities;
+            _entities = livingEntities;
         }
 
         private Vehicle CreateRandomMotorcycle(Vector3 position, float heading)
@@ -84,7 +84,7 @@ namespace Experiments.Scripts.CarSpawn
         private Vehicle SpawnMotorcycleWithRider(Vector3 position, float heading)
         {
             Vehicle vehicle = CreateRandomMotorcycle(position, heading);
-            this._entities.Add(vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver));
+            _entities.Add(vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver));
             return vehicle;
         }
 
