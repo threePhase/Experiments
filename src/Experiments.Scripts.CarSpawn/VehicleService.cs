@@ -11,6 +11,7 @@ namespace Experiments.Scripts.CarSpawn
     class VehicleService
     {
         private TrackedEntityQueue _entities;
+        private Random _random = new Random();
 
         public VehicleService()
         {
@@ -59,13 +60,18 @@ namespace Experiments.Scripts.CarSpawn
 
         private Vehicle CreateRandomMotorcycle(Vector3 position, float heading)
         {
-            // TODO: Make selection random
             VehicleHash motorcycleType = Motorcycles.GetRandomMotorcycle();
 
             Vehicle vehicle =
                 World.CreateVehicle(motorcycleType, position, heading);
 
-            SetColors(vehicle, Color.Crimson, Color.Black);
+            // random colors
+            Color primaryColor =
+                Color.FromArgb(_random.Next(0, 255), _random.Next(0, 255), _random.Next(0, 255));
+            Color secondaryColor =
+                Color.FromArgb(_random.Next(0, 255), _random.Next(0, 255), _random.Next(0, 255));
+
+            SetColors(vehicle, primaryColor, secondaryColor);
 
             return vehicle;
         }
