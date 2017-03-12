@@ -22,7 +22,7 @@ namespace Experiments.Scripts.CarSpawn
             CleanUpDeadEntities();
         }
 
-        public void SpawnMovingVehicle(bool explodeOnImpact)
+        public void SpawnMovingVehicle(bool explodeOnImpact = false, bool hasRider = true)
         {
             // position vehicle 5 meters in front of player
             Vector3 position =
@@ -31,7 +31,9 @@ namespace Experiments.Scripts.CarSpawn
             // angle vehicle perpendicular to player
             float heading = Game.Player.Character.Heading;
 
-            Vehicle vehicle = SpawnMotorcycleWithRider(position, heading);
+            Vehicle vehicle = hasRider ?
+                SpawnMotorcycleWithRider(position, heading) :
+                CreateRandomMotorcycle(position, heading);
 
             vehicle.Speed = 100f;
             vehicle.NumberPlate = "DIE";

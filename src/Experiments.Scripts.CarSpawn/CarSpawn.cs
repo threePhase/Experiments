@@ -26,7 +26,7 @@ namespace Experiments.Scripts.CarSpawn
             if (e.KeyCode == Keys.Oemcomma)
             {
                 Logger.Log("Creating vehicle");
-                _service.SpawnMovingVehicle(explodeOnImpact: true);
+                _service.SpawnMovingVehicle(explodeOnImpact: false, hasRider: true);
             }
         }
     }
