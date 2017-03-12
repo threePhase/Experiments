@@ -10,16 +10,16 @@ namespace Experiments.Scripts.CarSpawn
 {
     class VehicleService
     {
-        private IList<Vehicle> _vehicles;
+        private IList<Entity> _entities;
 
         public VehicleService()
         {
-            this._vehicles = new List<Vehicle>();
+            this._entities = new List<Entity>();
         }
 
         internal void Update(object sender, EventArgs e)
         {
-            CleanUpDeadVehicles();
+            CleanUpDeadEntities();
         }
 
         public void SpawnMovingVehicle(bool explodeOnImpact)
@@ -48,24 +48,24 @@ namespace Experiments.Scripts.CarSpawn
             vehicle.ApplyForceRelative(new Vector3(0, 0, -10));
             // TODO: set vehicle mods
 
-            this._vehicles.Add(vehicle);
+            this._entities.Add(vehicle);
         }
 
-        private void CleanUpDeadVehicles()
+        private void CleanUpDeadEntities()
         {
-            var livingVehicles = new List<Vehicle>();
-            foreach(var vehicle in this._vehicles)
+            var livingEntities = new List<Entity>();
+            foreach(var entity in this._entities)
             {
-                if (vehicle.IsDead && !vehicle.IsOnScreen)
+                if (entity.IsDead && !entity.IsOnScreen)
                 {
-                    vehicle.Delete();
+                    entity.Delete();
                 }
                 else
                 {
-                    livingVehicles.Add(vehicle);
+                    livingEntities.Add(entity);
                 }
             }
-            this._vehicles = livingVehicles;
+            this._entities = livingEntities;
         }
 
         private Vehicle CreateRandomMotorcycle(Vector3 position, float heading)
@@ -84,7 +84,7 @@ namespace Experiments.Scripts.CarSpawn
         private Vehicle SpawnMotorcycleWithRider(Vector3 position, float heading)
         {
             Vehicle vehicle = CreateRandomMotorcycle(position, heading);
-            vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver);
+            this._entities.Add(vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver));
             return vehicle;
         }
 
