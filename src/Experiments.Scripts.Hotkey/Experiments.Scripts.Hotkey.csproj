@@ -60,6 +60,13 @@
   <ItemGroup>
     <Content Include="ILMergeOrder.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Experiments.Utilities\Experiments.Utilities.csproj">
+      <Project>{129198b6-2dfb-4ece-8efd-8a3df81a3372}</Project>
+      <Name>Experiments.Utilities</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
