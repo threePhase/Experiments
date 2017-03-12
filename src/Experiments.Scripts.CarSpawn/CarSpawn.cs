@@ -2,13 +2,20 @@
 using System.Windows.Forms;
 using GTA;
 using Experiments.Utilities;
+using System.Collections.Generic;
 
 namespace Experiments.Scripts.CarSpawn
 {
     public class CreateVehicle : Script
     {
+        private IList<Vehicle> _vehicles;
+        private VehicleService _service;
+
         public CreateVehicle()
         {
+            this._service = new VehicleService();
+            this._vehicles = new List<Vehicle>();
+
             this.Tick += onTick;
             this.KeyUp += onKeyUp;
             this.KeyDown += onKeyDown;
@@ -28,7 +35,7 @@ namespace Experiments.Scripts.CarSpawn
             if (e.KeyCode == Keys.Oemcomma)
             {
                 Logger.Log("Creating vehicle");
-                new VehicleService().SpawnMovingVehicle(explodeOnImpact: true);
+                this._vehicles.Add(this._service.SpawnMovingVehicle(explodeOnImpact: true));
             }
         }
     }

@@ -8,7 +8,7 @@ namespace Experiments.Scripts.CarSpawn
 {
     class VehicleService
     {
-        public void SpawnMovingVehicle(bool explodeOnImpact)
+        public Vehicle SpawnMovingVehicle(bool explodeOnImpact)
         {
             // position vehicle 5 meters in front of player
             Vector3 position =
@@ -33,6 +33,8 @@ namespace Experiments.Scripts.CarSpawn
 
             vehicle.ApplyForceRelative(new Vector3(0, 0, -10));
             // TODO: set vehicle mods
+
+            return vehicle;
         }
 
         public Vehicle SpawnMotorcycleWithRider(Vector3 position, float heading)
