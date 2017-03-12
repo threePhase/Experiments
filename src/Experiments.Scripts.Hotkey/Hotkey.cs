@@ -116,6 +116,21 @@ namespace Experiments.Scripts.Hotkey
                 Game.Player.WantedLevel = currentLevel;
                 UI.Notify("Wanted Level Updated");
             });
+
+            const string CLEAN_UP = "clean_up";
+            _hotstrings.Add(CLEAN_UP, (args) =>
+            {
+                if (args == null || args.Length > 0)
+                {
+                    UI.Notify($"Usage: {CLEAN_UP}");
+                    return;
+                }
+
+                World.GetAllEntities()
+                     .ToList()
+                     .ForEach(e => e.Delete());
+                UI.Notify("Cleaned up entities");
+            });
         }
     }
 }
