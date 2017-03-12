@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experiments.Scripts.CarSpawn", "src\Experiments.Scripts.CarSpawn\Experiments.Scripts.CarSpawn.csproj", "{1EFF9A56-9F36-4930-B46D-C32C044E2E73}"
 EndProject
@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E113998-0615-45B6-AA83-3E5B218FE1AA}"
 	ProjectSection(SolutionItems) = preProject
 		readme.md = readme.md
+		todo.md = todo.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experiments.Scripts.Hotkey", "src\Experiments.Scripts.Hotkey\Experiments.Scripts.Hotkey.csproj", "{3E6DF651-C3DF-4755-8369-D79240AA1F11}"
