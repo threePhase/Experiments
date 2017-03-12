@@ -20,6 +20,18 @@ namespace Experiments.Scripts.CarSpawn
 
         private void OnTick(object sender, EventArgs e)
         {
+            if (Game.Player.Character.Weapons.Current.Hash == GTA.Native.WeaponHash.APPistol)
+            {
+                // if AP Pistol if fired
+                if (Game.Player.Character.IsShooting)
+                {
+                    _service.SpawnMovingVehicle(explodeOnImpact: false, hasRider: true);
+                }
+                else if (Game.Player.Character.IsReloading)
+                {
+                    _service.DestroyAllVehicles();
+                }
+            }
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
@@ -28,11 +40,6 @@ namespace Experiments.Scripts.CarSpawn
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Oemcomma)
-            {
-                Logger.Log("Creating vehicle");
-                _service.SpawnMovingVehicle(explodeOnImpact: false, hasRider: true);
-            }
         }
     }
 }

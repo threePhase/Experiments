@@ -49,6 +49,14 @@ namespace Experiments.Scripts.CarSpawn
             Logger.Log($"Entity Count: {_entities.Count}");
         }
 
+        public void DestroyAllVehicles()
+        {
+            while (_entities.Count > 0)
+            {
+                _entities.Dequeue();
+            }
+        }
+
         private Vehicle CreateRandomMotorcycle(Vector3 position, float heading)
         {
             // TODO: Make selection random
