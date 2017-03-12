@@ -1,14 +1,14 @@
 # TODO #
 
-## Stick Bomb Car Spawn ##
+## AP Pistol Car Spawn ##
 
 Make vehicle spawing an actual weapon that can be used by the player. Ideally it
 would work like a sticky bomb and allow the player to detonate all the generated
 vehicles that are still present.
 
-[] - Update sticky bomb firing to call `SpawnMovingVehicle`
-[] - Increase sticky bomb firing rate
-[] - Update sticky bomb detonating to destroy all spawned vehicles
+[x] - Update AP Pistol firing to spawn a random vehicle
+[x] - Update AP Pistol reloading to remove all the spawned vehicles
+[] - Add detonating functionality to destroy all spawned vehicles
 
 
 ## Script Manager ##
