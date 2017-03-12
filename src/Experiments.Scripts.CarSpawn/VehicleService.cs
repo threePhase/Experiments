@@ -2,24 +2,19 @@
 using GTA;
 using GTA.Math;
 using GTA.Native;
-using System.Collections.Generic;
 using System.Drawing;
 using System;
+using Experiments.Utilities;
 
 namespace Experiments.Scripts.CarSpawn
 {
     class VehicleService
     {
-        private IList<Entity> _entities;
+        private TrackedEntityQueue _entities;
 
         public VehicleService()
         {
-            _entities = new List<Entity>();
-        }
-
-        internal void Update(object sender, EventArgs e)
-        {
-            CleanUpDeadEntities();
+            _entities = new TrackedEntityQueue();
         }
 
         public void SpawnMovingVehicle(bool explodeOnImpact = false, bool hasRider = true)
@@ -50,24 +45,8 @@ namespace Experiments.Scripts.CarSpawn
             vehicle.ApplyForceRelative(new Vector3(0, 0, -10));
             // TODO: set vehicle mods
 
-            _entities.Add(vehicle);
-        }
-
-        private void CleanUpDeadEntities()
-        {
-            var livingEntities = new List<Entity>();
-            foreach(var entity in _entities)
-            {
-                if (entity.IsDead && !entity.IsOnScreen)
-                {
-                    entity.Delete();
-                }
-                else
-                {
-                    livingEntities.Add(entity);
-                }
-            }
-            _entities = livingEntities;
+            _entities.Enqueue(vehicle);
+            Logger.Log($"Entity Count: {_entities.Count}");
         }
 
         private Vehicle CreateRandomMotorcycle(Vector3 position, float heading)
@@ -86,7 +65,7 @@ namespace Experiments.Scripts.CarSpawn
         private Vehicle SpawnMotorcycleWithRider(Vector3 position, float heading)
         {
             Vehicle vehicle = CreateRandomMotorcycle(position, heading);
-            _entities.Add(vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver));
+            _entities.Enqueue(vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver));
             return vehicle;
         }
 

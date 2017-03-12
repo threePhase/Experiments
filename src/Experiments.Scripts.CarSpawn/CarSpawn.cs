@@ -1,6 +1,7 @@
 ﻿using Experiments.Utilities;
 using GTA;
 using System.Windows.Forms;
+using System;
 
 namespace Experiments.Scripts.CarSpawn
 {
@@ -12,9 +13,13 @@ namespace Experiments.Scripts.CarSpawn
         {
             _service = new VehicleService();
 
-            Tick += _service.Update;
+            Tick += OnTick;
             KeyUp += OnKeyUp;
             KeyDown += OnKeyDown;
+        }
+
+        private void OnTick(object sender, EventArgs e)
+        {
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
