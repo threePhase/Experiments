@@ -40,8 +40,7 @@ namespace Experiments.Scripts.CarSpawn
                 SetToExplodeOnImpact(vehicle);
             }
 
-            // spawn vehicle
-            vehicle.PlaceOnGround();
+            vehicle.EngineRunning = true;
 
             vehicle.ApplyForceRelative(new Vector3(0, 0, -10));
             // TODO: set vehicle mods
