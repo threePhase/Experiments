@@ -8,7 +8,9 @@ vehicles that are still present.
 
 [x] - Update AP Pistol firing to spawn a random vehicle
 [x] - Update AP Pistol reloading to remove all the spawned vehicles
-[] - Add detonating functionality to destroy all spawned vehicles
+[x] - Play around with `MarkAsNoLongerNeeded` instead of manually cleaning up entities
+[x] - Add detonating functionality to destroy all spawned vehicles
+[] - Setup riders to be angry and attack nearby peds
 
 
 ## Script Manager ##
@@ -22,3 +24,14 @@ experiments.
 	      hotstrings
      [] - Update `Experiments.Scripts.Hotkey` to subscribe and unsubscribe the
 	      script events (Tick, KeyDown, KeyUp)
+
+
+## Local Multiplayer ##
+
+### Overseer ###
+
+Add "overseer" mode where one player controls the camera with the keyboard
+while the player is controlled by the usb controller. The "overseer" can then
+spawn various things to help or hinder the player. Make camera somewhat sticky
+to player, ideally snapping back after out of focus for a certain amount of
+time.

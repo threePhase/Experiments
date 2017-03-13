@@ -5,17 +5,18 @@ using GTA.Native;
 using System.Drawing;
 using System;
 using Experiments.Utilities;
+using System.Collections.Generic;
 
 namespace Experiments.Scripts.CarSpawn
 {
     class VehicleService
     {
-        private TrackedEntityQueue _entities;
         private Random _random = new Random();
+        private Queue<Vehicle> _vehicles;
 
         public VehicleService()
         {
-            _entities = new TrackedEntityQueue();
+            _vehicles = new Queue<Vehicle>();
         }
 
         public void SpawnMovingVehicle(bool explodeOnImpact = false, bool hasRider = true)
@@ -45,22 +46,26 @@ namespace Experiments.Scripts.CarSpawn
             vehicle.ApplyForceRelative(new Vector3(0, 0, -10));
             // TODO: set vehicle mods
 
-            _entities.Enqueue(vehicle);
-            Logger.Log($"Entity Count: {_entities.Count}");
+            vehicle.MarkAsNoLongerNeeded();
+            _vehicles.Enqueue(vehicle);
+            Logger.Log($"Entity Count: {_vehicles.Count}");
         }
 
         public void DestroyAllVehicles()
         {
-            while (_entities.Count > 0)
+            while (_vehicles.Count > 0)
             {
-                _entities.Dequeue();
+                Vehicle vehicle =_vehicles.Dequeue();
+                if (vehicle.IsAlive)
+                {
+                    vehicle.Explode();
+                }
             }
         }
 
         private Vehicle CreateRandomMotorcycle(Vector3 position, float heading)
         {
             VehicleHash motorcycleType = Motorcycles.GetRandomMotorcycle();
-
             Vehicle vehicle =
                 World.CreateVehicle(motorcycleType, position, heading);
 
@@ -78,7 +83,8 @@ namespace Experiments.Scripts.CarSpawn
         private Vehicle SpawnMotorcycleWithRider(Vector3 position, float heading)
         {
             Vehicle vehicle = CreateRandomMotorcycle(position, heading);
-            _entities.Enqueue(vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver));
+            vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver)
+                   .MarkAsNoLongerNeeded();
             return vehicle;
         }
 
