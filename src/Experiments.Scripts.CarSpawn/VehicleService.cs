@@ -27,6 +27,10 @@ namespace Experiments.Scripts.CarSpawn
 
             // angle vehicle perpendicular to player
             float heading = Game.Player.Character.Heading;
+            if (Game.Player.Character.IsInVehicle())
+            {
+                heading = GameplayCamera.Direction.ToHeading();
+            }
 
             Vehicle vehicle = hasRider ?
                 SpawnMotorcycleWithRider(position, heading) :

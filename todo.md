@@ -10,6 +10,7 @@ vehicles that are still present.
 [x] - Update AP Pistol reloading to remove all the spawned vehicles
 [x] - Play around with `MarkAsNoLongerNeeded` instead of manually cleaning up entities
 [x] - Add detonating functionality to destroy all spawned vehicles
+[x] - Setup vehicles to spawn in aiming/camera direction
 [] - Setup riders to be angry and attack nearby peds
 
 
