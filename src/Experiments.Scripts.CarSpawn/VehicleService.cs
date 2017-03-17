@@ -87,8 +87,9 @@ namespace Experiments.Scripts.CarSpawn
         private Vehicle SpawnMotorcycleWithRider(Vector3 position, float heading)
         {
             Vehicle vehicle = CreateRandomMotorcycle(position, heading);
-            vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver)
-                   .MarkAsNoLongerNeeded();
+            Ped rider = vehicle.CreateRandomPedOnSeat(VehicleSeat.Driver);
+            rider.Task.CruiseWithVehicle(vehicle, 100f);
+            rider.MarkAsNoLongerNeeded();
             return vehicle;
         }
 
