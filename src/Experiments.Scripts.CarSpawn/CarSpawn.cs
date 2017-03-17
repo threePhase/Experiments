@@ -22,6 +22,7 @@ namespace Experiments.Scripts.CarSpawn
         {
             if (Game.Player.Character.Weapons.Current.Hash == GTA.Native.WeaponHash.APPistol)
             {
+                Game.Player.Character.Weapons.Current.InfiniteAmmo = true;
                 // if AP Pistol if fired
                 if (Game.Player.Character.IsShooting)
                 {
