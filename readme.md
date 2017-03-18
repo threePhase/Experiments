@@ -9,21 +9,29 @@ The project is setup to merge all the assemblies back into a single file called
 `Experiments.Scripts.dll`. There is also a post-build step setup to copy
 `Experiments.Scripts.dll` to the Steam Directory:
 
- `copy /Y "$(TargetDir)$(TargetName).dll"
-		  "%ProgramFiles(x86)%\Steam\steamapps\common\Grand Theft Auto V\scripts"`
+```
+ copy /Y "$(TargetDir)$(TargetName).dll"
+		  "%ProgramFiles(x86)%\Steam\steamapps\common\Grand Theft Auto V\scripts"
+```
 
 ### ILMerge ###
 
 Global references should be first added to the top level project, `Experiments.Scripts`. Then
-when referencing from other projects, ensure that *Copy Local* is set to `False`, otherwise ILMerge
+when referencing from other projects, ensure that **Copy Local** is set to `False`, otherwise ILMerge
 will throw an error during compilation:
 
-`ILMerge.Merge: ERROR!!: Duplicate type 'Experiments.Utilities.Logger' found in assembly
-'Experiments.Utilities'. Do you want to use the /alllowDup option?`
+```
+ILMerge.Merge: ERROR!!:
+Duplicate type 'Experiments.Utilities.Logger' found in assembly 'Experiments.Utilities'.
+Do you want to use the /allowDup option?
+```
 
-*NOTE:* `ScriptHookVDotNet.dll` must always have *Copy Local* set to `False`
+**NOTE:** `ScriptHookVDotNet.dll` must always have **Copy Local** set to `False`
 when referenced in a script, otherwise ILMerge will fail with:
-`ILMerge.Merge: The assembly 'ScriptHookVDotNet' is not marked as containing only managed code.`
+
+```
+ILMerge.Merge: The assembly 'ScriptHookVDotNet' is not marked as containing only managed code.
+```
 
 ## CarSpawn ##
 
