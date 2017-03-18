@@ -6,12 +6,12 @@ Make vehicle spawing an actual weapon that can be used by the player. Ideally it
 would work like a sticky bomb and allow the player to detonate all the generated
 vehicles that are still present.
 
-[x] - Update AP Pistol firing to spawn a random vehicle
-[x] - Update AP Pistol reloading to remove all the spawned vehicles
-[x] - Play around with `MarkAsNoLongerNeeded` instead of manually cleaning up entities
-[x] - Add detonating functionality to destroy all spawned vehicles
-[x] - Setup vehicles to spawn in aiming/camera direction
-[] - Setup riders to be angry and attack nearby peds
+- [x] - Update AP Pistol firing to spawn a random vehicle
+- [x] - Update AP Pistol reloading to remove all the spawned vehicles
+- [x] - Play around with `MarkAsNoLongerNeeded` instead of manually cleaning up entities
+- [x] - Add detonating functionality to destroy all spawned vehicles
+- [x] - Setup vehicles to spawn in aiming/camera direction
+- [ ] - Setup riders to be angry and attack nearby peds
 
 
 ## Script Manager ##
@@ -19,11 +19,11 @@ vehicles that are still present.
 Add manager which handles the global activation and deactivation of the various
 experiments.
 
-[] - Implement script manager in `Experiments.Scripts.Hotkey` which allows activating
+- [ ] - Implement script manager in `Experiments.Scripts.Hotkey` which allows activating
      and deactivating scripts
-	 [] - Add interface for exposing script name, activation status, hotkeys, and
+	 - [ ] - Add interface for exposing script name, activation status, hotkeys, and
 	      hotstrings
-     [] - Update `Experiments.Scripts.Hotkey` to subscribe and unsubscribe the
+     - [ ] - Update `Experiments.Scripts.Hotkey` to subscribe and unsubscribe the
 	      script events (Tick, KeyDown, KeyUp)
 
 
