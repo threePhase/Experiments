@@ -19,7 +19,7 @@ namespace Experiments.Scripts.Hotkey
             _modules.Where(m => m.Activated);
         private bool _enabled;
         private IList<IScriptModule> _modules;
-        private const string _name = "Experiments";
+        private const string _statusHeading = "Modules";
         private readonly UIText _statusText;
 
         public bool Enabled
@@ -27,8 +27,13 @@ namespace Experiments.Scripts.Hotkey
             get { return _enabled; }
             set
             {
+                IEnumerable<string> names =
+                    _activatedModules.Select(m =>
+                        $"{m.Name}: {(value ? "~g~ON" : "~r~OFF")}");
+
                 _statusText.Caption =
-                    $"{_name}: {(value ? "~g~ON" : "~r~OFF")}";
+                    $"{_statusHeading}:\n\t" +
+                    $"{(value ? string.Join("\n\t~w~", names) : "~r~None")}";
 
                 _enabled = value;
             }
@@ -43,7 +48,7 @@ namespace Experiments.Scripts.Hotkey
             };
 
             _statusText =
-                new UIText($"{_name}: ~r~OFF",
+                new UIText($"{_statusHeading}:\n\t ~r~None",
                     new Point(10, 10), 0.4f, Color.WhiteSmoke, 0, false);
 
             Tick += OnTick;
