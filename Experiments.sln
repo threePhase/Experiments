@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experiments.Scripts.CarSpawn", "src\Experiments.Scripts.CarSpawn\Experiments.Scripts.CarSpawn.csproj", "{1EFF9A56-9F36-4930-B46D-C32C044E2E73}"
 EndProject
@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experiments.Scripts", "src\
 		{3E6DF651-C3DF-4755-8369-D79240AA1F11} = {3E6DF651-C3DF-4755-8369-D79240AA1F11}
 		{1EFF9A56-9F36-4930-B46D-C32C044E2E73} = {1EFF9A56-9F36-4930-B46D-C32C044E2E73}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experiments.Scripts.Trainer", "src\Experiments.Scripts.Trainer\Experiments.Scripts.Trainer\Experiments.Scripts.Trainer.csproj", "{7FB48FD5-ED2A-498D-91A6-188C59FB24E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{72E3E447-2D31-48DD-80FE-9EF198860B4F}.Debug|x64.Build.0 = Debug|x64
 		{72E3E447-2D31-48DD-80FE-9EF198860B4F}.Release|x64.ActiveCfg = Release|x64
 		{72E3E447-2D31-48DD-80FE-9EF198860B4F}.Release|x64.Build.0 = Release|x64
+		{7FB48FD5-ED2A-498D-91A6-188C59FB24E5}.Debug|x64.ActiveCfg = Debug|x64
+		{7FB48FD5-ED2A-498D-91A6-188C59FB24E5}.Debug|x64.Build.0 = Debug|x64
+		{7FB48FD5-ED2A-498D-91A6-188C59FB24E5}.Release|x64.ActiveCfg = Release|x64
+		{7FB48FD5-ED2A-498D-91A6-188C59FB24E5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

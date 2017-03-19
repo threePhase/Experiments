@@ -66,6 +66,11 @@
       <Name>Experiments.Scripts.CarSpawn</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Experiments.Scripts.Trainer\Experiments.Scripts.Trainer\Experiments.Scripts.Trainer.csproj">
+      <Project>{7FB48FD5-ED2A-498D-91A6-188C59FB24E5}</Project>
+      <Name>Experiments.Scripts.Trainer</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Experiments.Utilities\Experiments.Utilities.csproj">
       <Project>{129198b6-2dfb-4ece-8efd-8a3df81a3372}</Project>
       <Name>Experiments.Utilities</Name>

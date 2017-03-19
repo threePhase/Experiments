@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Experiments.Scripts.CarSpawn;
+using Experiments.Scripts.Trainer;
 
 namespace Experiments.Scripts.Hotkey
 {
@@ -37,7 +38,8 @@ namespace Experiments.Scripts.Hotkey
         {
             _modules = new List<IScriptModule>
             {
-                new CreateVehicle()
+                new CreateVehicle(),
+                new TrainerModule()
             };
 
             _statusText =
@@ -59,39 +61,25 @@ namespace Experiments.Scripts.Hotkey
             string[] command = result.Split(' ');
             var args = command.Skip(1).ToArray();
 
-            // TODO: move to separate module
-            const string WANTED_LEVEL = "wanted_level";
-            if (command[0] == WANTED_LEVEL)
+            Action<string[]> selectedAction = null;
+            foreach(var module in _activatedModules)
             {
-                if (args == null || args.Length != 1)
+                Action<string[]> action =
+                    module.Hotstrings.FirstOrDefault(hotstring => hotstring.Key == command[0]).Value;
+                if (action != null)
                 {
-                    UI.Notify($"Usage: {WANTED_LEVEL} (level) where (level) is an int between 0 and 5");
-                    return;
+                    selectedAction = action;
+                    break;
                 }
+            }
 
-                int currentLevel = Game.Player.WantedLevel;
-                if (args[0] != null)
-                {
-                    int.TryParse(args[0], out currentLevel);
-                }
-                Game.Player.WantedLevel = currentLevel;
-                UI.Notify("Wanted Level Updated");
+            if (selectedAction != null)
+            {
+                selectedAction(args);
             }
             else
             {
-                var action = _activatedModules.Select(m =>
-                    m.Hotstrings.FirstOrDefault(hotstring => command[0] == hotstring.Key)
-                             .Value)
-                    .FirstOrDefault();
-
-                if (action != null)
-                {
-                    action(args);
-                }
-                else
-                {
-                    UI.Notify("Unknown command");
-                }
+                UI.Notify("Unknown command");
             }
         }
 
@@ -129,10 +117,19 @@ namespace Experiments.Scripts.Hotkey
             }
 
             // setup module shortcuts
-            _activatedModules.Select(m =>
-                m.Hotkeys.FirstOrDefault(hotkey => e.KeyCode == hotkey.Key)
-                         .Value)
-                .FirstOrDefault()?.Invoke();
+            Action selectedAction = null;
+            foreach(var module in _activatedModules)
+            {
+                Action action =
+                    module.Hotkeys.FirstOrDefault(hotstring => hotstring.Key == e.KeyCode).Value;
+                if (action != null)
+                {
+                    selectedAction = action;
+                    break;
+                }
+            }
+
+            selectedAction?.Invoke();
         }
     }
 }
