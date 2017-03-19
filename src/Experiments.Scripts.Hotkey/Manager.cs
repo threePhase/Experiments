@@ -4,16 +4,17 @@ using GTA;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Experiments.Scripts;
 using Experiments.Scripts.CarSpawn;
 using Experiments.Scripts.Trainer;
 
-namespace Experiments.Scripts.Hotkey
+namespace Experiments.Manager
 {
     /// <summary>
     /// Adapted from
     /// <see href="https://github.com/crosire/scripthookvdotnet/wiki/Code-Snippets#simple-commandhotkey-script"/>Simple Command/Hotkey Script</see>
     /// </summary>
-    public class Hotkey : Script
+    public class Manager : Script
     {
         private IEnumerable<IScriptModule> _activatedModules =>
             _modules.Where(m => m.Activated);
@@ -33,7 +34,7 @@ namespace Experiments.Scripts.Hotkey
             }
         }
 
-        public Hotkey()
+        public Manager()
         {
             _modules = new List<IScriptModule>
             {

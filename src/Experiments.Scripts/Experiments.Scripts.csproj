@@ -62,9 +62,9 @@
       <Project>{1eff9a56-9f36-4930-b46d-c32c044e2e73}</Project>
       <Name>Experiments.Scripts.CarSpawn</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Experiments.Scripts.Hotkey\Experiments.Scripts.Hotkey.csproj">
+    <ProjectReference Include="..\Experiments.Scripts.Hotkey\Experiments.Manager.csproj">
       <Project>{3e6df651-c3df-4755-8369-d79240aa1f11}</Project>
-      <Name>Experiments.Scripts.Hotkey</Name>
+      <Name>Experiments.Manager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Experiments.Scripts.Trainer\Experiments.Scripts.Trainer\Experiments.Scripts.Trainer.csproj">
       <Project>{7fb48fd5-ed2a-498d-91a6-188c59fb24e5}</Project>

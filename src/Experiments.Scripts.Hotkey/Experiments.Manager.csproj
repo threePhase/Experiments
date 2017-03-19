@@ -8,8 +8,8 @@
     <ProjectGuid>{3E6DF651-C3DF-4755-8369-D79240AA1F11}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Experiments.Scripts.Hotkey</RootNamespace>
-    <AssemblyName>Experiments.Scripts.Hotkey</AssemblyName>
+    <RootNamespace>Experiments.Manager</RootNamespace>
+    <AssemblyName>Experiments.Manager</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hotkey.cs" />
+    <Compile Include="Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

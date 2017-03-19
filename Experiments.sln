@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		todo.md = todo.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experiments.Scripts.Hotkey", "src\Experiments.Scripts.Hotkey\Experiments.Scripts.Hotkey.csproj", "{3E6DF651-C3DF-4755-8369-D79240AA1F11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experiments.Manager", "src\Experiments.Scripts.Hotkey\Experiments.Manager.csproj", "{3E6DF651-C3DF-4755-8369-D79240AA1F11}"
 	ProjectSection(ProjectDependencies) = postProject
 		{129198B6-2DFB-4ECE-8EFD-8A3DF81A3372} = {129198B6-2DFB-4ECE-8EFD-8A3DF81A3372}
 	EndProjectSection
