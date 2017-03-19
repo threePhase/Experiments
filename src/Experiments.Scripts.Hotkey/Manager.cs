@@ -74,22 +74,26 @@ namespace Experiments.Manager
                 return;
             }
 
-
-            Action<string[]> selectedAction = null;
-            foreach(var module in _activatedModules)
+            if (args.Length > 0 &&
+                _activatedModules.Any(m => m.Name.ToLower() == command[0].ToLower()))
             {
-                Action<string[]> action =
-                    module.Hotstrings.FirstOrDefault(hotstring => hotstring.Key == command[0]).Value;
-                if (action != null)
+                string moduleCommand = args[0];
+                args = args.Skip(1).ToArray();
+                Action<string[]> selectedAction = null;
+                foreach(var module in _activatedModules)
                 {
-                    selectedAction = action;
-                    break;
-                }
-            }
+                    Action<string[]> action = module.Hotstrings
+                        .FirstOrDefault(hotstring => hotstring.Key == moduleCommand)
+                        .Value;
 
-            if (selectedAction != null)
-            {
-                selectedAction(args);
+                    if (action != null)
+                    {
+                        selectedAction = action;
+                        break;
+                    }
+                }
+
+                selectedAction?.Invoke(args);
             }
             else
             {

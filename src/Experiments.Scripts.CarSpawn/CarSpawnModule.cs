@@ -24,7 +24,7 @@ namespace Experiments.Scripts.CarSpawn
 
             Hotkeys = new Dictionary<Keys, Action>();
 
-            const string CLEAN_UP = "clean_up";
+            const string CLEAN_UP = "cleanup";
             Hotstrings = new Dictionary<string, Action<string[]>>
             {
                 { CLEAN_UP, (args) =>
