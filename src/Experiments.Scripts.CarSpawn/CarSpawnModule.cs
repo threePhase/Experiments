@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Experiments.Scripts.CarSpawn
 {
-    public class CreateVehicle : IScriptModule
+    public class CarSpawnModule : IScriptModule
     {
         private VehicleService _service;
 
@@ -16,9 +16,9 @@ namespace Experiments.Scripts.CarSpawn
 
         public string Name { get; }
 
-        public CreateVehicle() : this(nameof(CreateVehicle)) { }
+        public CarSpawnModule() : this(nameof(CarSpawnModule)) { }
 
-        public CreateVehicle(string name)
+        public CarSpawnModule(string name)
         {
             Activated = true;
 

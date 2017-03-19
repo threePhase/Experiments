@@ -37,7 +37,7 @@ namespace Experiments.Scripts.Hotkey
         {
             _modules = new List<IScriptModule>
             {
-                new CreateVehicle(),
+                new CarSpawnModule(),
                 new TrainerModule()
             };
 

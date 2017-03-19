@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CarSpawn.cs" />
+    <Compile Include="CarSpawnModule.cs" />
     <Compile Include="Vehicles\Motorcycles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VehicleService.cs" />
