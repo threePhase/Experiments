@@ -6,8 +6,10 @@ namespace Experiments.Scripts
 {
     public interface IScriptModule
     {
+        bool Activated { get; }
         Dictionary<Keys, Action> Hotkeys { get; }
         Dictionary<string, Action<string[]>> Hotstrings { get; }
+        string Name { get; }
         void OnKeyDown(object sender, KeyEventArgs e);
         void OnKeyUp(object sender, KeyEventArgs e);
         void OnTick(object sender, EventArgs e);

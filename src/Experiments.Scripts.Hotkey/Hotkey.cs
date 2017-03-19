@@ -14,11 +14,12 @@ namespace Experiments.Scripts.Hotkey
     /// </summary>
     public class Hotkey : Script
     {
-        private readonly Dictionary<Keys, Action> _hotkeys;
-        private readonly Dictionary<string, Action<string[]>> _hotstrings;
-        private readonly UIText _statusText;
+        private IEnumerable<IScriptModule> _activatedModules =>
+            _modules.Where(m => m.Activated);
         private bool _enabled;
         private IList<IScriptModule> _modules;
+        private const string _name = "Experiments";
+        private readonly UIText _statusText;
 
         public bool Enabled
         {
@@ -26,7 +27,7 @@ namespace Experiments.Scripts.Hotkey
             set
             {
                 _statusText.Caption =
-                    $"Hotkeys: {(value ? "~g~ON" : "~r~OFF")}";
+                    $"{_name}: {(value ? "~g~ON" : "~r~OFF")}";
 
                 _enabled = value;
             }
@@ -40,14 +41,8 @@ namespace Experiments.Scripts.Hotkey
             };
 
             _statusText =
-                new UIText("Hotkeys: ~r~OFF",
+                new UIText($"{_name}: ~r~OFF",
                     new Point(10, 10), 0.4f, Color.WhiteSmoke, 0, false);
-
-            _hotstrings = new Dictionary<string, Action<string[]>>();
-            SetupHotstrings();
-
-            _hotkeys = new Dictionary<Keys, Action>();
-            SetupHotkeys();
 
             Tick += OnTick;
             KeyDown += OnKeyDown;
@@ -62,13 +57,41 @@ namespace Experiments.Scripts.Hotkey
                 return;
             }
             string[] command = result.Split(' ');
-            if (_hotstrings.ContainsKey(command[0]))
+            var args = command.Skip(1).ToArray();
+
+            // TODO: move to separate module
+            const string WANTED_LEVEL = "wanted_level";
+            if (command[0] == WANTED_LEVEL)
             {
-                _hotstrings[command[0]](command.Skip(1).ToArray());
+                if (args == null || args.Length != 1)
+                {
+                    UI.Notify($"Usage: {WANTED_LEVEL} (level) where (level) is an int between 0 and 5");
+                    return;
+                }
+
+                int currentLevel = Game.Player.WantedLevel;
+                if (args[0] != null)
+                {
+                    int.TryParse(args[0], out currentLevel);
+                }
+                Game.Player.WantedLevel = currentLevel;
+                UI.Notify("Wanted Level Updated");
             }
             else
             {
-                UI.Notify("Unknown command");
+                var action = _activatedModules.Select(m =>
+                    m.Hotstrings.FirstOrDefault(hotstring => command[0] == hotstring.Key)
+                             .Value)
+                    .FirstOrDefault();
+
+                if (action != null)
+                {
+                    action(args);
+                }
+                else
+                {
+                    UI.Notify("Unknown command");
+                }
             }
         }
 
@@ -81,7 +104,7 @@ namespace Experiments.Scripts.Hotkey
                 return;
             }
 
-            foreach (var module in _modules)
+            foreach (var module in _activatedModules)
             {
                 module.OnTick(sender, e);
             }
@@ -99,56 +122,17 @@ namespace Experiments.Scripts.Hotkey
                 return;
             }
 
-            foreach (var hotkey in _hotkeys.Keys.Where(hotkey => e.KeyCode == hotkey))
-            {
-                _hotkeys[hotkey]();
-            }
-        }
-
-        private void SetupHotkeys()
-        {
             // setup console shortcut
-            _hotkeys.Add(Keys.Oemtilde, OpenPrompt);
+            if (e.KeyCode == Keys.Oemtilde)
+            {
+                OpenPrompt();
+            }
 
             // setup module shortcuts
-            foreach(var module in _modules)
-            {
-                foreach(var hotkey in module.Hotkeys)
-                {
-                    _hotkeys.Add(hotkey.Key, hotkey.Value);
-                }
-            }
-        }
-
-        private void SetupHotstrings()
-        {
-            // setup module hotstrings
-            foreach(var module in _modules)
-            {
-                foreach(var hotstring in module.Hotstrings)
-                {
-                    _hotstrings.Add(hotstring.Key, hotstring.Value);
-                }
-            }
-
-            // TODO: move to separate module
-            const string WANTED_LEVEL = "wanted_level";
-            _hotstrings.Add(WANTED_LEVEL, (args) =>
-            {
-                if (args == null || args.Length != 1)
-                {
-                    UI.Notify($"Usage: {WANTED_LEVEL} (level) where (level) is an int between 0 and 5");
-                    return;
-                }
-
-                int currentLevel = Game.Player.WantedLevel;
-                if (args[0] != null)
-                {
-                    int.TryParse(args[0], out currentLevel);
-                }
-                Game.Player.WantedLevel = currentLevel;
-                UI.Notify("Wanted Level Updated");
-            });
+            _activatedModules.Select(m =>
+                m.Hotkeys.FirstOrDefault(hotkey => e.KeyCode == hotkey.Key)
+                         .Value)
+                .FirstOrDefault()?.Invoke();
         }
     }
 }

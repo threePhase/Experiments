@@ -19,11 +19,11 @@ vehicles that are still present.
 Add manager which handles the global activation and deactivation of the various
 experiments.
 
-- [ ] - Implement script manager in `Experiments.Scripts.Hotkey` which allows activating
+- [x] - Implement script manager in `Experiments.Scripts.Hotkey` which allows activating
      and deactivating scripts
-	 - [ ] - Add interface for exposing script name, activation status, hotkeys, and
+	 - [x] - Add interface for exposing script name, activation status, hotkeys, and
 	      hotstrings
-     - [ ] - Update `Experiments.Scripts.Hotkey` to subscribe and unsubscribe the
+     - [x] - Update `Experiments.Scripts.Hotkey` to subscribe and unsubscribe the
 	      script events (Tick, KeyDown, KeyUp)
 
 

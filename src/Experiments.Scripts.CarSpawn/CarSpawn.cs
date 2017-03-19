@@ -10,11 +10,18 @@ namespace Experiments.Scripts.CarSpawn
     {
         private VehicleService _service;
 
+        public bool Activated { get; set; }
         public Dictionary<Keys, Action> Hotkeys { get; }
         public Dictionary<string, Action<string[]>> Hotstrings { get; }
 
-        public CreateVehicle()
+        public string Name { get; }
+
+        public CreateVehicle() : this(nameof(CreateVehicle)) { }
+
+        public CreateVehicle(string name)
         {
+            Activated = true;
+
             Hotkeys = new Dictionary<Keys, Action>();
 
             const string CLEAN_UP = "clean_up";
@@ -35,6 +42,8 @@ namespace Experiments.Scripts.CarSpawn
                     }
                 }
             };
+
+            Name = name;
 
             _service = new VehicleService();
         }
