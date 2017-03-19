@@ -4,6 +4,7 @@ using GTA;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Experiments.Scripts.CarSpawn;
 
 namespace Experiments.Scripts.Hotkey
 {
@@ -17,6 +18,7 @@ namespace Experiments.Scripts.Hotkey
         private readonly Dictionary<string, Action<string[]>> _hotstrings;
         private readonly UIText _statusText;
         private bool _enabled;
+        private IList<IScriptModule> _modules;
 
         public bool Enabled
         {
@@ -32,9 +34,10 @@ namespace Experiments.Scripts.Hotkey
 
         public Hotkey()
         {
-            Tick += OnTick;
-            KeyDown += OnKeyDown;
-            Interval = 0;
+            _modules = new List<IScriptModule>
+            {
+                new CreateVehicle()
+            };
 
             _statusText =
                 new UIText("Hotkeys: ~r~OFF",
@@ -45,6 +48,10 @@ namespace Experiments.Scripts.Hotkey
 
             _hotkeys = new Dictionary<Keys, Action>();
             SetupHotkeys();
+
+            Tick += OnTick;
+            KeyDown += OnKeyDown;
+            Interval = 0;
         }
 
         private void OpenPrompt()
@@ -68,9 +75,15 @@ namespace Experiments.Scripts.Hotkey
         private void OnTick(object sender, EventArgs e)
         {
             _statusText.Draw();
+
             if (!Enabled)
             {
                 return;
+            }
+
+            foreach (var module in _modules)
+            {
+                module.OnTick(sender, e);
             }
         }
 
@@ -94,11 +107,31 @@ namespace Experiments.Scripts.Hotkey
 
         private void SetupHotkeys()
         {
+            // setup console shortcut
             _hotkeys.Add(Keys.Oemtilde, OpenPrompt);
+
+            // setup module shortcuts
+            foreach(var module in _modules)
+            {
+                foreach(var hotkey in module.Hotkeys)
+                {
+                    _hotkeys.Add(hotkey.Key, hotkey.Value);
+                }
+            }
         }
 
         private void SetupHotstrings()
         {
+            // setup module hotstrings
+            foreach(var module in _modules)
+            {
+                foreach(var hotstring in module.Hotstrings)
+                {
+                    _hotstrings.Add(hotstring.Key, hotstring.Value);
+                }
+            }
+
+            // TODO: move to separate module
             const string WANTED_LEVEL = "wanted_level";
             _hotstrings.Add(WANTED_LEVEL, (args) =>
             {
@@ -115,21 +148,6 @@ namespace Experiments.Scripts.Hotkey
                 }
                 Game.Player.WantedLevel = currentLevel;
                 UI.Notify("Wanted Level Updated");
-            });
-
-            const string CLEAN_UP = "clean_up";
-            _hotstrings.Add(CLEAN_UP, (args) =>
-            {
-                if (args == null || args.Length > 0)
-                {
-                    UI.Notify($"Usage: {CLEAN_UP}");
-                    return;
-                }
-
-                World.GetAllEntities()
-                     .ToList()
-                     .ForEach(e => e.Delete());
-                UI.Notify("Cleaned up entities");
             });
         }
     }

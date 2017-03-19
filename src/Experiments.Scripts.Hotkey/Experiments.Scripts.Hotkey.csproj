@@ -61,6 +61,11 @@
     <Content Include="ILMergeOrder.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Experiments.Scripts.CarSpawn\Experiments.Scripts.CarSpawn.csproj">
+      <Project>{1EFF9A56-9F36-4930-B46D-C32C044E2E73}</Project>
+      <Name>Experiments.Scripts.CarSpawn</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Experiments.Utilities\Experiments.Utilities.csproj">
       <Project>{129198b6-2dfb-4ece-8efd-8a3df81a3372}</Project>
       <Name>Experiments.Utilities</Name>

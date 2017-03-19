@@ -1,24 +1,45 @@
-﻿using Experiments.Utilities;
-using GTA;
+﻿using GTA;
 using System.Windows.Forms;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Experiments.Scripts.CarSpawn
 {
-    public class CreateVehicle : Script
+    public class CreateVehicle : IScriptModule
     {
         private VehicleService _service;
 
+        public Dictionary<Keys, Action> Hotkeys { get; }
+        public Dictionary<string, Action<string[]>> Hotstrings { get; }
+
         public CreateVehicle()
         {
-            _service = new VehicleService();
+            Hotkeys = new Dictionary<Keys, Action>();
 
-            Tick += OnTick;
-            KeyUp += OnKeyUp;
-            KeyDown += OnKeyDown;
+            const string CLEAN_UP = "clean_up";
+            Hotstrings = new Dictionary<string, Action<string[]>>
+            {
+                { CLEAN_UP, (args) =>
+                    {
+                        if (args == null || args.Length > 0)
+                        {
+                            UI.Notify($"Usage: {CLEAN_UP}");
+                            return;
+                        }
+
+                        World.GetAllEntities()
+                             .ToList()
+                             .ForEach(e => e.Delete());
+                        UI.Notify("Cleaned up entities");
+                    }
+                }
+            };
+
+            _service = new VehicleService();
         }
 
-        private void OnTick(object sender, EventArgs e)
+        public void OnTick(object sender, EventArgs e)
         {
             if (Game.Player.Character.Weapons.Current.Hash == GTA.Native.WeaponHash.APPistol)
             {
@@ -35,11 +56,11 @@ namespace Experiments.Scripts.CarSpawn
             }
         }
 
-        private void OnKeyUp(object sender, KeyEventArgs e)
+        public void OnKeyUp(object sender, KeyEventArgs e)
         {
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
+        public void OnKeyDown(object sender, KeyEventArgs e)
         {
         }
     }
