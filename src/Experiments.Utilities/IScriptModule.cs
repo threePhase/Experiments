@@ -6,7 +6,7 @@ namespace Experiments.Scripts
 {
     public interface IScriptModule
     {
-        bool Activated { get; }
+        bool Activated { get; set; }
         Dictionary<Keys, Action> Hotkeys { get; }
         Dictionary<string, Action<string[]>> Hotstrings { get; }
         string Name { get; }

@@ -27,15 +27,9 @@ namespace Experiments.Scripts.Hotkey
             get { return _enabled; }
             set
             {
-                IEnumerable<string> names =
-                    _activatedModules.Select(m =>
-                        $"{m.Name}: {(value ? "~g~ON" : "~r~OFF")}");
-
-                _statusText.Caption =
-                    $"{_statusHeading}:\n\t" +
-                    $"{(value ? string.Join("\n\t~w~", names) : "~r~None")}";
-
                 _enabled = value;
+
+                UpdateHUDStatus();
             }
         }
 
@@ -58,13 +52,27 @@ namespace Experiments.Scripts.Hotkey
 
         private void OpenPrompt()
         {
-            string result = Game.GetUserInput(20);
+            string result = Game.GetUserInput(60);
             if (string.IsNullOrWhiteSpace(result))
             {
                 return;
             }
             string[] command = result.Split(' ');
             var args = command.Skip(1).ToArray();
+
+            const string MODULE = "mod";
+            if (command[0] == MODULE)
+            {
+                if (args == null || args.Length != 2)
+                {
+                    UI.Notify($"Usage: {MODULE} (name) (status) where (name) is the name of the module and (status) is \"deactivate\" or \"activate\"");
+                    return;
+                }
+
+                HandleModuleActivation(args);
+                return;
+            }
+
 
             Action<string[]> selectedAction = null;
             foreach(var module in _activatedModules)
@@ -85,6 +93,57 @@ namespace Experiments.Scripts.Hotkey
             else
             {
                 UI.Notify("Unknown command");
+            }
+        }
+
+        private void HandleModuleActivation(string[] args)
+        {
+
+            string moduleName = string.Empty;
+            if (!string.IsNullOrWhiteSpace(args[0]))
+            {
+                moduleName = args[0].ToLower();
+            }
+            else
+            {
+                UI.Notify($"Invalid Module Name: {args[0]}");
+                return;
+            }
+
+            var module =
+                _modules.FirstOrDefault(m => m.Name.ToLower() == moduleName);
+
+            if (module != null)
+            {
+                const string ACTIVATE = "activate";
+                const string DEACTIVATE = "deactivate";
+                bool status = module.Activated;
+                string newStatusValue = args[1];
+                if (newStatusValue == ACTIVATE)
+                {
+                    module.Activated = true;
+                    UI.Notify($"{module.Name} Activated");
+                    UpdateHUDStatus();
+                    return;
+                }
+                else if (newStatusValue == DEACTIVATE)
+                {
+                    module.Activated = false;
+                    UI.Notify($"{module.Name} Deactivated");
+                    UpdateHUDStatus();
+                    return;
+
+                }
+                else
+                {
+                    UI.Notify($"Invalid Status: {newStatusValue}");
+                    return;
+                }
+            }
+            else
+            {
+                UI.Notify($"Could Not Find Module: {moduleName}");
+                return;
             }
         }
 
@@ -135,6 +194,17 @@ namespace Experiments.Scripts.Hotkey
             }
 
             selectedAction?.Invoke();
+        }
+
+        private void UpdateHUDStatus()
+        {
+            IEnumerable<string> names =
+                _modules.Select(m =>
+                    $"{m.Name}: {(m.Activated ? "~g~ON" : "~r~OFF")}");
+
+            _statusText.Caption =
+                $"{_statusHeading}:\n\t" +
+                $"{(Enabled ? string.Join("\n\t~w~", names) : "~r~None")}";
         }
     }
 }
